@@ -48,7 +48,7 @@ public class Wallet {
 	public Transaction sendFunds(PublicKey _recipient,float value ) {
 		if(getBalance() < value) {
 			System.out.println("#Not Enough funds to send transaction. Transaction Discarded.");
-			return null;
+			return null; // add a null to the transactions although not pass the validate
 		}
 		ArrayList<TransactionInput> inputs = new ArrayList<TransactionInput>();
 		

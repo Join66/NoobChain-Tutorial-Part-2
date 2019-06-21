@@ -39,7 +39,7 @@ public class NoobChain {
 		addBlock(genesis);
 		
 		//testing
-		Block block1 = new Block(genesis.hash);
+		Block block1 = new Block(genesis.hash); // blockchain.get(blockchain.size() - 1).hash;
 		System.out.println("\nWalletA's balance is: " + walletA.getBalance());
 		System.out.println("\nWalletA is Attempting to send funds (40) to WalletB...");
 		block1.addTransaction(walletA.sendFunds(walletB.publicKey, 40f));
@@ -57,11 +57,16 @@ public class NoobChain {
 		Block block3 = new Block(block2.hash);
 		System.out.println("\nWalletB is Attempting to send funds (20) to WalletA...");
 		block3.addTransaction(walletB.sendFunds( walletA.publicKey, 20));
+
+		addBlock(block3);
 		System.out.println("\nWalletA's balance is: " + walletA.getBalance());
 		System.out.println("WalletB's balance is: " + walletB.getBalance());
 		
 		isChainValid();
-		
+
+		/*String blockchainJson = StringUtil.getJson(blockchain);
+		System.out.println("\nThe block chain: ");
+		System.out.println(blockchainJson);*/
 	}
 	
 	public static Boolean isChainValid() {
