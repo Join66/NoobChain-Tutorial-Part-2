@@ -71,7 +71,8 @@ public class StringUtil {
 	public static String getStringFromKey(Key key) {
 		return Base64.getEncoder().encodeToString(key.getEncoded());
 	}
-	
+
+	// I think this algorithm have some question
 	public static String getMerkleRoot(ArrayList<Transaction> transactions) {
 		int count = transactions.size();
 		

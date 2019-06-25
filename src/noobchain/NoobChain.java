@@ -99,7 +99,7 @@ public class NoobChain {
 			
 			//loop thru blockchains transactions:
 			TransactionOutput tempOutput;
-			for(int t=0; t <currentBlock.transactions.size(); t++) {
+			for(int t=0; t <currentBlock.transactions.size(); t++) { // ignore the genesis,It does not contain transactions
 				Transaction currentTransaction = currentBlock.transactions.get(t);
 				
 				if(!currentTransaction.verifySignature()) {
@@ -111,7 +111,7 @@ public class NoobChain {
 					return false; 
 				}
 				
-				for(TransactionInput input: currentTransaction.inputs) {	
+				for(TransactionInput input: currentTransaction.inputs) { // 第二个区块的输入是创世区块，当前交易的输入为上一笔交易的输出
 					tempOutput = tempUTXOs.get(input.transactionOutputId);
 					
 					if(tempOutput == null) {
@@ -128,7 +128,7 @@ public class NoobChain {
 				}
 				
 				for(TransactionOutput output: currentTransaction.outputs) {
-					tempUTXOs.put(output.id, output);
+					tempUTXOs.put(output.id, output); // 当前交易的输出作为下次交易的输入
 				}
 				
 				if( currentTransaction.outputs.get(0).reciepient != currentTransaction.reciepient) {

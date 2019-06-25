@@ -71,12 +71,12 @@ public class Transaction {
 		return total;
 	}
 	
-	public void generateSignature(PrivateKey privateKey) {
+	public void generateSignature(PrivateKey privateKey) { // 发送者的私钥加签
 		String data = StringUtil.getStringFromKey(sender) + StringUtil.getStringFromKey(reciepient) + Float.toString(value)	;
 		signature = StringUtil.applyECDSASig(privateKey,data);		
 	}
 	
-	public boolean verifySignature() {
+	public boolean verifySignature() { // 发送者的公钥验签
 		String data = StringUtil.getStringFromKey(sender) + StringUtil.getStringFromKey(reciepient) + Float.toString(value)	;
 		return StringUtil.verifyECDSASig(sender, data, signature);
 	}

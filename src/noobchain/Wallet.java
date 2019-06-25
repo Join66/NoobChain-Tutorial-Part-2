@@ -16,7 +16,7 @@ public class Wallet {
 		generateKeyPair();
 	}
 		
-	public void generateKeyPair() {
+	public void generateKeyPair() { // maybe use private
 		try {
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("ECDSA","BC");
 			SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -33,12 +33,12 @@ public class Wallet {
 		}
 	}
 	
-	public float getBalance() {
+	public float getBalance() { // 同一个公钥对应多个UTXO
 		float total = 0;	
         for (Map.Entry<String, TransactionOutput> item: NoobChain.UTXOs.entrySet()){
         	TransactionOutput UTXO = item.getValue();
             if(UTXO.isMine(publicKey)) { //if output belongs to me ( if coins belong to me )
-            	UTXOs.put(UTXO.id,UTXO); //add it to our list of unspent transactions.
+            	UTXOs.put(UTXO.id,UTXO); //add it to our list of unspent transactions.  Non-repeatable
             	total += UTXO.value ; 
             }
         }  
@@ -53,7 +53,7 @@ public class Wallet {
 		ArrayList<TransactionInput> inputs = new ArrayList<TransactionInput>();
 		
 		float total = 0;
-		for (Map.Entry<String, TransactionOutput> item: UTXOs.entrySet()){
+		for (Map.Entry<String, TransactionOutput> item: UTXOs.entrySet()){ // 当前钱包中未花费的钱当作输入
 			TransactionOutput UTXO = item.getValue();
 			total += UTXO.value;
 			inputs.add(new TransactionInput(UTXO.id));
@@ -64,7 +64,7 @@ public class Wallet {
 		newTransaction.generateSignature(privateKey);
 		
 		for(TransactionInput input: inputs){
-			UTXOs.remove(input.transactionOutputId);
+			UTXOs.remove(input.transactionOutputId); // 去除当前钱包已花费的UTXO
 		}
 		
 		return newTransaction;
